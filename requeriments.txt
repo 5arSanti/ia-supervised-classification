@@ -5,3 +5,4 @@ seaborn
 altair
 folium
 openpyxl
+scikit-learn
