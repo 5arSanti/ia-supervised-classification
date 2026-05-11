@@ -65,3 +65,9 @@ Tabla comparando predicción vs respuesta real para los datos de prueba. Calcula
 - Cambios aplicados: se conservó la rúbrica original y se añadieron entradas por tarea con objetivo, cambios, validación y próximo paso.
 - Validación rápida: `CONTEXT.md` ahora permite retomar el trabajo desde cualquier etapa del plan sin perder contexto técnico.
 - Siguiente paso: ejecutar todas las celdas del nuevo bloque en `main.ipynb` para registrar resultados definitivos en outputs.
+
+### Tarea 6 - Corrección de tipado y target para entrenamiento
+- Objetivo: corregir un fallo en el `fit()` del árbol de decisión y asegurar que el target binario tenga dos clases útiles.
+- Cambios aplicados: en `main.ipynb` se transformó `fecha_de_nacimiento` a `edad_aprox`, se eliminaron columnas `datetime` residuales con `select_dtypes(include=['datetime', 'datetimetz'])` y se redefinió `target_alto_puntaje` usando el percentil 75 de `puntaje` en lugar de la mediana.
+- Validación rápida: el flujo completo de clasificación ejecuta sin `DTypePromotionError`, `X` queda solo con `float64`, el target final queda distribuido en 7755 casos clase 0 y 2623 casos clase 1, y el modelo alcanza un accuracy aproximado de 87.33%.
+- Siguiente paso: reejecutar en el notebook desde la celda de construcción del target hasta la evaluación para refrescar salidas visuales y métricas en la interfaz.
