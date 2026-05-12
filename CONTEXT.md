@@ -71,3 +71,33 @@ Tabla comparando predicción vs respuesta real para los datos de prueba. Calcula
 - Cambios aplicados: en `main.ipynb` se transformó `fecha_de_nacimiento` a `edad_aprox`, se eliminaron columnas `datetime` residuales con `select_dtypes(include=['datetime', 'datetimetz'])` y se redefinió `target_alto_puntaje` usando el percentil 75 de `puntaje` en lugar de la mediana.
 - Validación rápida: el flujo completo de clasificación ejecuta sin `DTypePromotionError`, `X` queda solo con `float64`, el target final queda distribuido en 7755 casos clase 0 y 2623 casos clase 1, y el modelo alcanza un accuracy aproximado de 87.33%.
 - Siguiente paso: reejecutar en el notebook desde la celda de construcción del target hasta la evaluación para refrescar salidas visuales y métricas en la interfaz.
+
+### Tarea 7 - Mapeo del patrón de correlación de referencia
+- Objetivo: adaptar la lógica de correlación de `scripts/proyectoFinal.ipynb` al notebook principal.
+- Cambios aplicados: se identificó la secuencia de referencia `numeric_data -> combined_data -> predictive_data` y se decidió aterrizarla como una matriz compacta y una regla explícita de selección previa al entrenamiento.
+- Validación rápida: la correlación queda ubicada antes del `train_test_split`, funcionando como puente entre exploración y modelado.
+- Siguiente paso: construir `X_base`, filtrar variables poco defendibles y seleccionar candidatas usando correlación con el target.
+
+### Tarea 8 - Correlación compacta y selección de variables
+- Objetivo: integrar una matriz de correlación que impacte realmente el modelo.
+- Cambios aplicados: se creó `X_base`, se retiraron columnas `sin_dato` y variables operativas (`grupo`, `estado`, `institucion`) para mejorar interpretabilidad, se calculó correlación con `target_alto_puntaje`, se construyó una heatmap compacta y se aplicó una regla de descarte por redundancia mayor a 0.85.
+- Validación rápida: el conjunto final `X_model` quedó con 14 variables seleccionadas por correlación e interpretabilidad.
+- Siguiente paso: reentrenar el árbol de decisión con `X_model` y convertir la salida en una historia más ejecutiva.
+
+### Tarea 9 - Reorganización de entrenamiento y evaluación
+- Objetivo: profundizar la parte de entrenamiento, importancia de variables y desempeño del modelo.
+- Cambios aplicados: se separó el flujo en diagnóstico correlacional, split 80/20, entrenamiento del árbol, gráfico de barras de importancias, tabla de predicciones, reporte resumido por clase y matriz de confusión visual.
+- Validación rápida: la variable más importante pasó a ser `jornada_Jornada nocturna`, lo que mejora la interpretación frente al modelo anterior dominado por señales de faltantes.
+- Siguiente paso: cerrar el notebook con respuestas explícitas a las preguntas finales y una narrativa tipo consultor.
+
+### Tarea 10 - Cierre ejecutivo para presentación
+- Objetivo: responder las preguntas de interpretación final con tono de consultoría.
+- Cambios aplicados: se añadió un cierre ejecutivo en `main.ipynb` que responde qué variable fue la más importante, qué accuracy obtuvo el modelo, qué limitaciones existen y en qué contexto real podría aplicarse.
+- Validación rápida: el cierre traduce resultados técnicos a una propuesta de valor orientada a toma de decisiones.
+- Siguiente paso: validar la ejecución completa del nuevo flujo y registrar métricas finales.
+
+### Tarea 11 - Validación final del flujo de modelado
+- Objetivo: comprobar que la nueva lógica de correlación y selección funciona sin errores.
+- Cambios aplicados: se ejecutó de nuevo el bloque de modelado con `X_model`.
+- Validación rápida: el flujo corrió correctamente con 14 variables seleccionadas, `accuracy` aproximado de 82.95% y `jornada_Jornada nocturna` como variable más importante.
+- Siguiente paso: reejecutar visualmente en el notebook las celdas del bloque de clasificación para dejar gráficos y tablas actualizadas en la interfaz.
